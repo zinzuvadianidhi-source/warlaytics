@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="form-page">
+  <section class="form-card glass">
+    <div class="form-header">
+      <div><p class="eyebrow">New upload</p><h1>Add Product Photo</h1></div>
+      <a class="secondary" href="{{ url_for('dashboard') }}">← Back</a>
+    </div>
+    <form method="post" enctype="multipart/form-data" class="form-stack">
+      <label>Product Name</label>
+      <input name="product_name" required placeholder="Example: Rose lipstick shade 04">
+
+      <label>Photo Type</label>
+      <div class="choice-grid">
+        {% for t in photo_types %}
+          <label class="choice"><input type="radio" name="photo_type" value="{{ t }}" required><span>{{ t }}</span></label>
+        {% endfor %}
+      </div>
+
+      <label>Upload Image</label>
+      <label class="upload-box">
+        <input type="file" name="photo" accept="image/*" required>
+        <span>Click to choose image</span>
+        <small>PNG, JPG, JPEG, WEBP</small>
+      </label>
+      <button class="primary full" type="submit">Save Photo</button>
+    </form>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="app-shell">
+  <aside class="sidebar glass">
+    <div class="logo-mark">P</div>
+    <h2>Photo Manager</h2>
+    <p class="muted">Excel connected inventory images</p>
+    <nav>
+      <a class="active" href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('add_photo') }}">Add Photo</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <div class="user-pill">
+      <span>{{ username[0]|upper }}</span>
+      <div><b>{{ username }}</b><small>{{ role }}</small></div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <p class="eyebrow">Dashboard</p>
+        <h1>Product Photo Library</h1>
+      </div>
+      <a class="primary" href="{{ url_for('add_photo') }}">+ Add New Photo</a>
+    </div>
+
+    <section class="stats-grid">
+      <div class="stat-card glass"><span>Total Photos</span><b>{{ rows|length }}</b></div>
+      <div class="stat-card glass"><span>Photo Types</span><b>7</b></div>
+      <div class="stat-card glass"><span>Your Role</span><b>{{ role|title }}</b></div>
+    </section>
+
+    <section class="toolbar glass">
+      <input id="searchBox" placeholder="Search product name, type, or uploader..." onkeyup="filterCards()">
+      <span class="muted">Connected with database.xlsx</span>
+    </section>
+
+    <section class="photo-grid" id="photoGrid">
+    {% for row in rows %}
+      <article class="photo-card glass" data-text="{{ row.product_name }} {{ row.photo_type }} {{ row.uploaded_by }}">
+        <div class="image-wrap">
+          <img src="{{ url_for('static', filename='uploads/' + row.file_name) }}" alt="{{ row.product_name }}">
+          <span class="type-badge">{{ row.photo_type }}</span>
+        </div>
+        <div class="card-body">
+          <h3>{{ row.product_name }}</h3>
+          <p>Uploaded by {{ row.uploaded_by }}</p>
+          <div class="actions">
+            <a class="secondary" href="{{ url_for('edit_photo', photo_id=row.id) }}">Modify</a>
+            {% if role == 'admin' %}
+            <form method="post" action="{{ url_for('delete_photo', photo_id=row.id) }}" onsubmit="return confirm('Delete this photo?')">
+              <button class="danger" type="submit">Delete</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+    {% else %}
+      <div class="empty-state glass">
+        <h2>No photos uploaded yet</h2>
+        <p>Start by adding your first product image.</p>
+        <a class="primary" href="{{ url_for('add_photo') }}">Add Photo</a>
+      </div>
+    {% endfor %}
+    </section>
+  </main>
+</div>
+<script>
+function filterCards(){
+  const q = document.getElementById('searchBox').value.toLowerCase();
+  document.querySelectorAll('.photo-card').forEach(card => {
+    card.style.display = card.dataset.text.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+{% endblock %}

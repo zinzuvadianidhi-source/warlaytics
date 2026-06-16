@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="form-page">
+  <section class="form-card glass wide">
+    <div class="form-header">
+      <div><p class="eyebrow">Edit photo</p><h1>Modify Product Photo</h1></div>
+      <a class="secondary" href="{{ url_for('dashboard') }}">← Back</a>
+    </div>
+    <div class="edit-layout">
+      <div class="preview-panel">
+        <img class="preview" src="{{ url_for('static', filename='uploads/' + item.file_name) }}" alt="preview">
+      </div>
+      <form method="post" enctype="multipart/form-data" class="form-stack">
+        <label>Product Name</label>
+        <input name="product_name" value="{{ item.product_name }}" required>
+        <label>Photo Type</label>
+        <div class="choice-grid">
+          {% for t in photo_types %}
+            <label class="choice"><input type="radio" name="photo_type" value="{{ t }}" {% if item.photo_type == t %}checked{% endif %}><span>{{ t }}</span></label>
+          {% endfor %}
+        </div>
+        <label>Replace Image</label>
+        <label class="upload-box compact">
+          <input type="file" name="photo" accept="image/*">
+          <span>Choose new image</span>
+          <small>Leave empty to keep current photo</small>
+        </label>
+        <button class="primary full" type="submit">Update Photo</button>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}

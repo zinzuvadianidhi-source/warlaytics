@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="auth-page">
+  <section class="auth-hero">
+    <div class="brand-badge">VINVI</div>
+    <h1>Excel Photo Manager</h1>
+    <p>Upload, organize, update, and manage product photos connected with your Excel database.</p>
+    <div class="feature-row"><span>✓ Excel database</span><span>✓ Admin/User login</span><span>✓ Photo types</span></div>
+  </section>
+  <section class="auth-card glass">
+    <h2>Welcome back</h2>
+    <p class="muted">Login to continue to your dashboard.</p>
+    <form method="post" class="form-stack">
+      <label>Username</label>
+      <input name="username" required placeholder="admin or user">
+      <label>Password</label>
+      <input name="password" type="password" required placeholder="admin123 or user123">
+      <button class="primary full" type="submit">Login</button>
+    </form>
+    <div class="demo-box">
+      <b>Demo:</b> admin / admin123 or user / user123
+    </div>
+  </section>
+</main>
+{% endblock %}
